@@ -32,10 +32,17 @@
     </settings>
 
     <typeAliases>
+        <!-- 类型别名 -->
         <typeAlias alias="Blog" type="com.steamedfish.mybatis.demo.bean.Blog"/>
         <package name="com.steamedfish.mybatis.demo.bean"/>
     </typeAliases>
 
+    <typeHandlers>
+        <!-- 类型处理器 -->
+        <typeHandler handler="com.steamedfish.mybatis.demo.type.handler.AuthorJobTypeHandler"
+                     javaType="job" jdbcType="VARCHAR"/>
+        <!--<package name="com.steamedfish.mybatis.demo.type.handler"/>-->
+    </typeHandlers>
 
     <environments default="development">
         <!--environment 元素体中包含了事务管理和连接池的配置-->

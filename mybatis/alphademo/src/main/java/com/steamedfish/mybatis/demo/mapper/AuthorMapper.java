@@ -21,4 +21,6 @@ public interface AuthorMapper {
 
     @Select("SELECT * FROM t_author WHERE id = #{id}")
     Author selectAuthor2(long id);
+
+
 }

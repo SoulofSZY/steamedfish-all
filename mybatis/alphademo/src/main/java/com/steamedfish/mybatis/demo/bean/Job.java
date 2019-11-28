@@ -1,3 +1,6 @@
+/**
+ * Copyright (C), 2019-2019
+ */
 package com.steamedfish.mybatis.demo.bean;
 
 import lombok.AllArgsConstructor;
@@ -7,21 +10,28 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 /**
- * 〈作者〉
+ * 〈〉
  *
  * @author steamedfish
  * @create 2019/11/28
  * @since 1.0.0
  */
-@Alias("Author")
-@Data
+@Alias("job")
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Author {
-
-    private long id;
-    private String name;
-    private String age;
-    private Job job;
+public class Job {
+    /**
+     * 职业类型
+     */
+    private String jobType;
+    /**
+     * 公司
+     */
+    private String company;
+    /**
+     * 公司地点
+     */
+    private String address;
 }
