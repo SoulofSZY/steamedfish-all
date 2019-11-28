@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="mybatis/conf/config.properties">
+        <!-- 属性 -->
+        <!--<property name="username" value="dev_user"/>-->
+        <property name="password" value="F2Fa3!33TYyg"/>
+
+        <!-- 启用默认值特性 也可通过value来指定分割符代替：${username:szy} -->
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+    </properties>
+
+    <settings>
+        <!-- 设置 -->
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="defaultFetchSize" value="100"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="Blog" type="com.steamedfish.mybatis.demo.bean.Blog"/>
+        <package name="com.steamedfish.mybatis.demo.bean"/>
+    </typeAliases>
+
+
+    <environments default="development">
+        <!--environment 元素体中包含了事务管理和连接池的配置-->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username:root}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--包含一组映射器（mapper），这些映射器的 XML 映射文件包含了 SQL 代码和映射定义信息-->
+        <mapper resource="mybatis/mapper/BlogMapper.xml"/>
+        <mapper resource="mybatis/mapper/AuthorMapper.xml"/>
+    </mappers>
+</configuration>
