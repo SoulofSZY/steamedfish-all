@@ -37,27 +37,36 @@ public class TestSqlSessionFactory {
     private static void fromXML() throws IOException {
         String resource = "mybatis/conf/mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "dev-druid");
     }
 
     private void fromConfiguration() {
         DataSource dataSource = dataSource();
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("dev", transactionFactory, dataSource);
+        Environment environment = new Environment("dev-druid", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
         // 既加载类 也加载xml
         configuration.addMappers("com.steamedfish.mybatis.demo.mapper");
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     }
 
-    private static Object testSqlSession(Class mapperClazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private static Object selectOne(Class mapperClazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         // 一个语句既可以通过 XML 定义，也可以通过注解定义
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()){
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             val mapper = sqlSession.getMapper(mapperClazz);
             Method selectOneMethod = mapperClazz.getMethod("selectOne", long.class);
             return selectOneMethod.invoke(mapper, 1L);
         }
     }
+
+    private static int updateOne(Class mapperClazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            val mapper = sqlSession.getMapper(mapperClazz);
+            Method updateOneMethod = mapperClazz.getMethod("updateOne", long.class, String.class);
+            return (int)updateOneMethod.invoke(mapper,1L, "张三");
+        }
+    }
+
 
     // 数据源
     private static DataSource dataSource() {
@@ -66,7 +75,9 @@ public class TestSqlSessionFactory {
 
     public static void main(String[] args) throws Exception {
         fromXML();
-        System.out.println(testSqlSession(BlogMapper.class));
-        System.out.println(testSqlSession(AuthorMapper.class));
+        System.out.println(selectOne(BlogMapper.class));
+        System.out.println(selectOne(AuthorMapper.class));
+
+ //       System.out.println(updateOne(BlogMapper.class));
     }
 }

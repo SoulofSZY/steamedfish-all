@@ -34,31 +34,110 @@
     <typeAliases>
         <!-- 类型别名 -->
         <typeAlias alias="Blog" type="com.steamedfish.mybatis.demo.bean.Blog"/>
+        <typeAlias alias="ExampleObjectFactory" type="com.steamedfish.mybatis.demo.object.factory.ExampleObjectFactory"/>
+        <typeAlias alias="ExamplePlugin"  type="com.steamedfish.mybatis.demo.plugins.ExamplePlugin"  />
+        <typeAlias alias="DruidDataSourceFactory" type="com.steamedfish.mybatis.demo.datasource.DruidDataSourceFactory"/>
         <package name="com.steamedfish.mybatis.demo.bean"/>
+        <package name="com.steamedfish.mybatis.demo.enums"/>
     </typeAliases>
 
     <typeHandlers>
+        <!-- 扩展点 显式地为那些 SQL 语句设置要使用的类型处理器 接入点：1.resultMap-result-typeHandler  2.参数设置 #{，typeHandler}
+        ${, typeHandler}-->
         <!-- 类型处理器 -->
         <typeHandler handler="com.steamedfish.mybatis.demo.type.handler.AuthorJobTypeHandler"
                      javaType="job" jdbcType="VARCHAR"/>
-        <!--<package name="com.steamedfish.mybatis.demo.type.handler"/>-->
+        <!-- 枚举处理器 EnumTypeHandler name  EnumOrdinalTypeHandler Ordinal -->
+        <!--<typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType=""/>-->
+        <package name="com.steamedfish.mybatis.demo.type.handler"/>
     </typeHandlers>
 
+    <objectFactory type="ExampleObjectFactory">
+        <!--扩展点 自定义对象工厂 用于创建结果对象-->
+        <property name="someProperty" value="100"/>
+    </objectFactory>
+
+    <plugins>
+        <!--扩展点 插件 -->
+        <plugin interceptor="ExamplePlugin">
+            <property name="info" value="user-defined Plugin"/>
+        </plugin>
+    </plugins>
+
     <environments default="development">
-        <!--environment 元素体中包含了事务管理和连接池的配置-->
+        <!--environment 元素体中包含了事务管理和连接池的配置 可用于实现不同环境数据源 或者 多数据源配置-->
+
         <environment id="development">
-            <transactionManager type="JDBC"/>
+            <transactionManager type="JDBC">
+                <property name="info" value="test001"/>
+            </transactionManager>
             <dataSource type="POOLED">
                 <property name="driver" value="${driver}"/>
                 <property name="url" value="${url}"/>
                 <property name="username" value="${username:root}"/>
                 <property name="password" value="${password}"/>
+
+                <property name="driver.characterEncoding" value="utf-8"/>
+                <property name="driver.useUnicode" value="true"/>
+                <property name="driver.rewriteBatchedStatements" value="true"/>
+                <property name="driver.zeroDateTimeBehavior" value="convertToNull"/>
             </dataSource>
         </environment>
+
+        <environment id="dev-druid">
+            <transactionManager type="JDBC">
+                <property name="info" value="test001"/>
+            </transactionManager>
+            <dataSource type="DruidDataSourceFactory">
+                <property name="url" value="${url}" />
+                <property name="username" value="${username}" />
+                <property name="password" value="${password}" />
+
+                <property name="filters" value="stat" />
+
+                <property name="maxActive" value="20" />
+                <property name="initialSize" value="1" />
+                <property name="maxWait" value="60000" />
+                <property name="minIdle" value="1" />
+
+                <property name="timeBetweenEvictionRunsMillis" value="60000" />
+                <property name="minEvictableIdleTimeMillis" value="300000" />
+
+                <property name="testWhileIdle" value="true" />
+                <property name="testOnBorrow" value="false" />
+                <property name="testOnReturn" value="false" />
+
+                <property name="poolPreparedStatements" value="true" />
+                <property name="maxOpenPreparedStatements" value="20" />
+
+                <property name="asyncInit" value="true" />
+            </dataSource>
+        </environment>
+
     </environments>
+
+
+    <databaseIdProvider type="DB_VENDOR">
+        <!-- 可扩展 数据库厂商标识 也可自定义 I DatabaseIdProvider  -->
+        <property name="MySQL" value="mysql"/>
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
+
+
     <mappers>
         <!--包含一组映射器（mapper），这些映射器的 XML 映射文件包含了 SQL 代码和映射定义信息-->
         <mapper resource="mybatis/mapper/BlogMapper.xml"/>
         <mapper resource="mybatis/mapper/AuthorMapper.xml"/>
+
+        <!-- 使用完全限定资源定位符（URL） -->
+        <!--<mapper url="file:///var/mappers/AuthorMapper.xml"/>-->
+
+        <!-- 使用映射器接口实现类的完全限定类名 -->
+        <!--<mapper class="org.mybatis.builder.AuthorMapper"/>-->
+
+        <!-- 将包内的映射器接口实现全部注册为映射器 -->
+        <!--<package name="org.mybatis.builder"/>-->
     </mappers>
 </configuration>

@@ -1,5 +1,6 @@
 package com.steamedfish.mybatis.demo.bean;
 
+import com.steamedfish.mybatis.demo.enums.GenderEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,5 @@ public class Author {
     private String name;
     private String age;
     private Job job;
+    private GenderEnum gender;
 }
