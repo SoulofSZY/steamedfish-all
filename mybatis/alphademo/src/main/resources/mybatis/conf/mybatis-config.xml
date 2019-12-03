@@ -89,7 +89,7 @@
                 <property name="info" value="test001"/>
             </transactionManager>
             <dataSource type="DruidDataSourceFactory">
-                <property name="url" value="${url}" />
+                <property name="url" value="${druid_url}" />
                 <property name="username" value="${username}" />
                 <property name="password" value="${password}" />
 
@@ -130,6 +130,7 @@
         <!--包含一组映射器（mapper），这些映射器的 XML 映射文件包含了 SQL 代码和映射定义信息-->
         <mapper resource="mybatis/mapper/BlogMapper.xml"/>
         <mapper resource="mybatis/mapper/AuthorMapper.xml"/>
+        <mapper resource="mybatis/mapper/PersonMapper.xml"/>
 
         <!-- 使用完全限定资源定位符（URL） -->
         <!--<mapper url="file:///var/mappers/AuthorMapper.xml"/>-->

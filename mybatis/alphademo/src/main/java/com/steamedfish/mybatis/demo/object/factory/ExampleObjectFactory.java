@@ -17,13 +17,13 @@ public class ExampleObjectFactory extends DefaultObjectFactory {
 
     @Override
     public Object create(Class type) {
-        System.out.println("my ObjectFactory no args cons");
+       // System.out.println("my ObjectFactory no args cons");
         return super.create(type);
     }
 
     @Override
     public Object create(Class type, List constructorArgTypes, List constructorArgs) {
-        System.out.println("my ObjectFactory args cons");
+       // System.out.println("my ObjectFactory args cons");
         return super.create(type, constructorArgTypes, constructorArgs);
     }
 

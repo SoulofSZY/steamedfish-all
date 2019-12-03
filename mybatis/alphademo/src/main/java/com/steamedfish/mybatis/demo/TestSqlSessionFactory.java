@@ -1,9 +1,12 @@
 package com.steamedfish.mybatis.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.steamedfish.mybatis.demo.bean.Author;
 import com.steamedfish.mybatis.demo.bean.Blog;
+import com.steamedfish.mybatis.demo.bean.Person;
 import com.steamedfish.mybatis.demo.mapper.AuthorMapper;
 import com.steamedfish.mybatis.demo.mapper.BlogMapper;
+import com.steamedfish.mybatis.demo.mapper.PersonMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.ibatis.io.Resources;
@@ -75,9 +78,17 @@ public class TestSqlSessionFactory {
 
     public static void main(String[] args) throws Exception {
         fromXML();
-        System.out.println(selectOne(BlogMapper.class));
-        System.out.println(selectOne(AuthorMapper.class));
+ //       System.out.println(selectOne(BlogMapper.class));
+ //       System.out.println(selectOne(AuthorMapper.class));
 
  //       System.out.println(updateOne(BlogMapper.class));
+
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            PersonMapper mapper = sqlSession.getMapper(PersonMapper.class);
+            Person person = Person.builder().id(1).name("李四").age(18).gender(1).build();
+            int id = mapper.insertPerson1(person);
+            System.out.println(JSON.toJSONString(mapper.selectPerson1(1)));
+            sqlSession.commit();
+        }
     }
 }
