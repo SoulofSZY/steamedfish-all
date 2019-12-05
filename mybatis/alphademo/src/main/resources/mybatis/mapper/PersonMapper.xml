@@ -61,7 +61,18 @@
             keyProperty=""
             keyColumn=""
             useGeneratedKeys="true"
-            timeout="20"></insert>
+            timeout="20">
+
+        <selectKey keyProperty="1" keyColumn="1" resultType="int" order="BEFORE">
+--             keyProperty - selectKey 语句结果应该被设置的目标属性。如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。
+--             keyColumn - 匹配属性的返回结果集中的列名称。如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。
+--             resultType - 结果的类型。MyBatis 通常可以推断出来，但是为了更加精确，写上也不会有什么问题。MyBatis 允许将任何简单类型用作主键的类型，包括字符串。如果希望作用于多个生成的列，则可以使用一个包含期望属性的 Object 或一个 Map。
+--             order - 这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE，那么它会首先生成主键，设置 keyProperty 然后执行插入语句。如果设置为 AFTER，那么先执行插入语句，然后是 selectKey 中的语句 - 这和 Oracle 数据库的行为相似，在插入语句内部可能有嵌入索引调用。
+--             statementType - 与前面相同，MyBatis 支持 STATEMENT，PREPARED 和 CALLABLE 语句的映射类型，分别代表 PreparedStatement 和 CallableStatement 类型
+        </selectKey>
+
+
+    </insert>
 
     <update
             id="updatePerson"
@@ -78,8 +89,15 @@
             timeout="20"></delete>
 
 
+
+
     <!-- example -->
+
     <select id="selectPerson1" parameterType="_long" resultType="hashmap">
+       SELECT * FROM t_person WHERE ID = #{id}
+    </select>
+
+    <select id="selectPerson2" parameterType="_long" resultType="Person">
        SELECT * FROM t_person WHERE ID = #{id}
     </select>
 
@@ -87,4 +105,73 @@
         insert into t_person (id,`name`,age,gender)
         values (#{id},#{name},#{age},#{gender})
     </insert>
+
+    <insert id="insertPerson2" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_person (`name`, age, gender)
+          values (#{name}, #{age}, #{gender})
+    </insert>
+
+    <insert id="insertPersonList" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_person (`name`, age, gender) values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.name}, #{item.age}, #{item.gender})
+        </foreach>
+    </insert>
+
+    <insert id="insertPerson3">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            select CAST(RAND()*1000000 as SIGNED)
+        </selectKey>
+        insert into t_person (id, `name`, age, gender)
+        values (#{id}, #{name}, #{age}, #{gender})
+    </insert>
+
+    <update id="updatePerson1">
+      update t_person set
+        `name` = #{name},
+        age = #{age},
+        gender = #{gender}
+      where id = #{id}
+  </update>
+
+    <delete id="deletePerson1">
+      delete from t_person where id = #{id}
+    </delete>
+
+    <!--                                    分割                        -->
+    <sql id="personColumns">
+       ${alias}.id,${alias}.name,${alias}.age
+    </sql>
+
+    <sql id="sometable">
+      t_${suffix} as ${alias}
+    </sql>
+
+    <sql id="someinclude">
+        from
+        <include refid="${include_target}"/>
+    </sql>
+
+    <select id="selectDynamicSQL" resultType="map">
+        select
+        <include refid="personColumns"><property name="alias" value="t1"/></include>
+        <include refid="someinclude">
+            <property name="suffix" value="person"/>
+            <property name="alias" value="t1"/>
+            <property name="include_target" value="sometable"/>
+        </include>
+    </select>
+
+    <select id="selectPersons" resultType="map">
+        select
+        <include refid="personColumns"><property name="alias" value="t1"/></include>,
+        <include refid="personColumns"><property name="alias" value="t2"/></include>
+        from t_person t1
+        cross join t_author t2
+    </select>
+
+
+
 </mapper>

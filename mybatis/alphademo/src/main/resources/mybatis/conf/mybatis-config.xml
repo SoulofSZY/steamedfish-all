@@ -34,8 +34,11 @@
     <typeAliases>
         <!-- 类型别名 -->
         <typeAlias alias="Blog" type="com.steamedfish.mybatis.demo.bean.Blog"/>
+        <typeAlias alias="Person" type="com.steamedfish.mybatis.demo.bean.Person"/>
         <typeAlias alias="ExampleObjectFactory" type="com.steamedfish.mybatis.demo.object.factory.ExampleObjectFactory"/>
-        <typeAlias alias="ExamplePlugin"  type="com.steamedfish.mybatis.demo.plugins.ExamplePlugin"  />
+        <typeAlias alias="UpdatePlugin"  type="com.steamedfish.mybatis.demo.plugins.UpdatePlugin"  />
+        <typeAlias alias="QueryPlugin"  type="com.steamedfish.mybatis.demo.plugins.QueryPlugin"  />
+        <typeAlias alias="StatementHandlerQueryPlugin" type="com.steamedfish.mybatis.demo.plugins.StatementHandlerQueryPlugin"/>
         <typeAlias alias="DruidDataSourceFactory" type="com.steamedfish.mybatis.demo.datasource.DruidDataSourceFactory"/>
         <package name="com.steamedfish.mybatis.demo.bean"/>
         <package name="com.steamedfish.mybatis.demo.enums"/>
@@ -59,9 +62,11 @@
 
     <plugins>
         <!--扩展点 插件 -->
-        <plugin interceptor="ExamplePlugin">
+        <plugin interceptor="UpdatePlugin">
             <property name="info" value="user-defined Plugin"/>
         </plugin>
+        <plugin interceptor="QueryPlugin"></plugin>
+        <plugin interceptor="StatementHandlerQueryPlugin"></plugin>
     </plugins>
 
     <environments default="development">

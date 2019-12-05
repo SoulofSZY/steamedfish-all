@@ -2,6 +2,7 @@ package com.steamedfish.mybatis.demo.mapper;
 
 import com.steamedfish.mybatis.demo.bean.Person;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,8 @@ public interface PersonMapper {
      */
     Map selectPerson1(long id);
 
+    Person selectPerson2(long id);
+
     /**
      * 插入
      * @param person
@@ -41,6 +44,12 @@ public interface PersonMapper {
      */
     int insertPerson1(Person person);
 
+    int insertPerson2(Person person);
+
+    int insertPerson3(Person person);
+
+    int insertPersonList(List<Person> list);
+
     /**
      * 更新
      * @param person
@@ -48,6 +57,7 @@ public interface PersonMapper {
      */
     int updatePerson(Person person);
 
+    int updatePerson1(Person person);
 
     /**
      * 删除
@@ -56,6 +66,14 @@ public interface PersonMapper {
      */
     int deletePerson(long id);
 
+    int deletePerson1(long id);
 
+    /**
+     * 测试 sql 可重用SQL代码段
+     */
+
+    List<Map> selectPersons();
+
+    List<Map> selectDynamicSQL();
 
 }
