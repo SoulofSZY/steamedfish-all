@@ -3,6 +3,7 @@ package com.steamedfish.mybatis.demo.plugins;
 import com.alibaba.druid.pool.DruidPooledPreparedStatement;
 import com.alibaba.druid.proxy.jdbc.PreparedStatementProxyImpl;
 import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.logging.jdbc.PreparedStatementLogger;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
@@ -28,10 +29,6 @@ public class StatementHandlerQueryPlugin implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        DruidPooledPreparedStatement statement = (DruidPooledPreparedStatement)invocation.getArgs()[0];
-        System.out.println("-----------");
-        System.out.println(MessageFormat.format("sql exec:{0}", statement.getSql()));
-        System.out.println("-----------");
         Object result = invocation.proceed();
         return result;
     }

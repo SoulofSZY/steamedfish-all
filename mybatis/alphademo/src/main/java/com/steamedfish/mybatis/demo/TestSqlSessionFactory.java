@@ -131,10 +131,16 @@ public class TestSqlSessionFactory {
 //             System.out.println(JSON.toJSONString(list));
 //         });
 
+//        exec(PersonMapper.class, (session, mapper) -> {
+//            PersonMapper personMapper = (PersonMapper) mapper;
+//            List<Map> result = personMapper.selectDynamicSQL();
+//            System.out.println(JSON.toJSONString(result));
+//        });
+
         exec(PersonMapper.class, (session, mapper) -> {
             PersonMapper personMapper = (PersonMapper) mapper;
-            List<Map> result = personMapper.selectDynamicSQL();
-            System.out.println(JSON.toJSONString(result));
+            List<Person> personList = personMapper.selectByColumn("name", "王五");
+            System.out.println(JSON.toJSONString(personList));
         });
     }
 

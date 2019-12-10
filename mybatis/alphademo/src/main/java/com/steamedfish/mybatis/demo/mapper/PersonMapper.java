@@ -1,6 +1,8 @@
 package com.steamedfish.mybatis.demo.mapper;
 
 import com.steamedfish.mybatis.demo.bean.Person;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ public interface PersonMapper {
 
     /**
      * 根据id
+     *
      * @param id
      * @return
      */
@@ -23,6 +26,7 @@ public interface PersonMapper {
 
     /**
      * test1
+     *
      * @param id
      * @return
      */
@@ -32,6 +36,7 @@ public interface PersonMapper {
 
     /**
      * 插入
+     *
      * @param person
      * @return
      */
@@ -39,6 +44,7 @@ public interface PersonMapper {
 
     /**
      * 插入 test1
+     *
      * @param person
      * @return
      */
@@ -52,6 +58,7 @@ public interface PersonMapper {
 
     /**
      * 更新
+     *
      * @param person
      * @return
      */
@@ -61,6 +68,7 @@ public interface PersonMapper {
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
@@ -75,5 +83,8 @@ public interface PersonMapper {
     List<Map> selectPersons();
 
     List<Map> selectDynamicSQL();
+
+    @Select("select * from t_person where ${column} = #{value}")
+    List<Person> selectByColumn(@Param("column") String column, @Param("value") String value);
 
 }
