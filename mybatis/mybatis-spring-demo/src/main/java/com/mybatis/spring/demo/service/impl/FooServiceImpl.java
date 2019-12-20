@@ -4,6 +4,7 @@ import com.mybatis.spring.demo.bean.Person;
 import com.mybatis.spring.demo.mapper.PersonMapper;
 import com.mybatis.spring.demo.service.FooService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,5 +27,13 @@ public class FooServiceImpl implements FooService {
     @Override
     public List<Person> findPeronByName(String name) {
         return personMapper.selectByColumn("name", name);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int insertPerson(Person person) {
+        int result = personMapper.inserPerson(person);
+        int err = 1/0;
+        return result;
     }
 }

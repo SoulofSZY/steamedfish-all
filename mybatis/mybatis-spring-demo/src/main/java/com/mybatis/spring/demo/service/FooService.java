@@ -14,4 +14,6 @@ import java.util.List;
 public interface FooService {
 
     List<Person> findPeronByName(String name);
+
+    int insertPerson(Person person);
 }

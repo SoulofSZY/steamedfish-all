@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    druid:
+      max-active: 5
+      initial-size: 5
+      min-idle: 2
+      filters: conn,config,stat,slf4j
+      filter:
+        config:
+          enabled: true
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+    url: jdbc:mysql://39.108.179.100:3306/test_mysql?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: Szy_123&
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
+mapper:
+  not-empty: true
+
+

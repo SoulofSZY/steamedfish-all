@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -23,6 +24,7 @@ import java.util.Properties;
  * @since 1.0.0
  */
 @Configuration
+@EnableTransactionManagement
 @ComponentScan("com.mybatis.spring.demo.service")
 public class BaseConfiguration {
 
@@ -43,6 +45,11 @@ public class BaseConfiguration {
         ClassPathResource resource = new ClassPathResource("mapper/PersonMapper.xml");
         factoryBean.setMapperLocations(resource);
         return factoryBean.getObject();
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager() throws Exception {
+        return new DataSourceTransactionManager(dataSource());
     }
 
     @Bean
