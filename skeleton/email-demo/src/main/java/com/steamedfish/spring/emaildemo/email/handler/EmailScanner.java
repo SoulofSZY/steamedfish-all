@@ -48,6 +48,7 @@ public class EmailScanner extends EmailScannerTemplate {
                             .htmlContent(parser.getHtmlContent())
                             .htmlContent(parser.getPlainContent())
                             .build();
+                    emailInfoList.add(emailMsgBean);
                 }
                 if (emailSearchCondition.isSaveAttaches() && CollectionUtil.isNotEmpty(parser.getAttachmentList())) {
                     List<String> attacheFilePathes = null;
@@ -70,7 +71,7 @@ public class EmailScanner extends EmailScannerTemplate {
 
                 }
             } catch (Exception e) {
-                log.error("邮件解析异常");
+                log.error("邮件解析异常", e);
             }
         }
 

@@ -37,10 +37,11 @@ public abstract class EmailScannerTemplate {
     @PostConstruct
     private void init() {
         properties = new Properties();
-        properties.setProperty("mail.pop3.host", mailProperties.getProperties().get("scanner.host"));
-        properties.setProperty("mail.pop3.port", mailProperties.getProperties().get("scanner.port"));
-        properties.setProperty("mail.store.protocol", mailProperties.getProperties().get("scanner.protocal"));
-
+        //properties.setProperty("mail.pop3.host", mailProperties.getProperties().get("scanner.host"));
+        //properties.setProperty("mail.pop3.port", mailProperties.getProperties().get("scanner.port"));
+        //properties.setProperty("mail.store.protocol", mailProperties.getProperties().get("scanner.protocal"));
+       // properties.put("mail.store.protocol", "imap");
+       // properties.put("mail.imap.class", "com.sun.mail.imap.IMAPStore");
         authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -51,13 +52,16 @@ public abstract class EmailScannerTemplate {
 
     public List<EmailMsgBean> scan(EmailSearchCondition emailSearchCondition) {
 
-        //Session session = Session.getDefaultInstance(properties, authenticator);
         Session session = Session.getDefaultInstance(properties);
+        //Session session = Session.getDefaultInstance(properties);
         Store store = null;
         Folder folder = null;
         try {
-            store = session.getStore();
-            store.connect(mailProperties.getProperties().get("scanner.host"), mailProperties.getUsername(), mailProperties.getPassword());
+            store = session.getStore(mailProperties.getProperties().get("scanner.protocal"));
+            store.connect(mailProperties.getProperties().get("scanner.host"),
+                    Integer.parseInt(mailProperties.getProperties().get("scanner.port")),
+                    mailProperties.getUsername(),
+                    mailProperties.getPassword());
             // 获取收件箱
             folder = store.getFolder("INBOX");
             if (null == folder) {
