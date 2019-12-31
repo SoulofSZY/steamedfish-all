@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 〈扫描收件箱过滤条件〉
  *
- * @author steamedfish
+ * @author sunzhengyu
  * @create 2019/12/27
  * @since 1.0.0
  */
@@ -20,7 +20,12 @@ public class EmailSearchCondition {
     private String[] subjects;
 
     /**
-     * 间隔天数 目前只支持从当前日期往过去日期数  例如 -1 ：昨天到现在
+     * 发件人
+     */
+    private String[] froms;
+
+    /**
+     * 间隔天数 目前只支持从当前日期往过去日期数  例如 -1 ：昨天到现在   pop3 - SentDateTerm  imap - ReceivedDateTerm
      */
     private Integer intervalDays;
 
@@ -38,4 +43,19 @@ public class EmailSearchCondition {
      * 是否保存附件
      */
     private boolean saveAttaches;
+
+    /**
+     * 是否简单处理附件 单个处理 不是组合处理
+     */
+    private boolean dealAttach;
+
+//    /**
+//     *  是否有附件 过滤
+//     */
+//    private boolean withAttaches;
+
+//    /**
+//     * 是否过滤 已读文件 imap 协议生效 pop3不生效  实际tx邮箱未生效
+//     */
+//    private boolean filterSeen;
 }

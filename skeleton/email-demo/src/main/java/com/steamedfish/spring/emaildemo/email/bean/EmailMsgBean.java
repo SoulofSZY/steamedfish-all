@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 〈邮件基本信息〉
  *
- * @author steamedfish
+ * @author sunzhengyu
  * @create 2019/12/27
  * @since 1.0.0
  */
@@ -47,8 +47,12 @@ public class EmailMsgBean {
      */
     private String plainContent;
 
+
     /**
      * 附件保存
      */
     private List<String> filePath;
+
+
+
 }

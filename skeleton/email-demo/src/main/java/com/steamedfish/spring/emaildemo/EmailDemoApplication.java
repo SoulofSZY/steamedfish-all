@@ -42,14 +42,15 @@ public class EmailDemoApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 //        emailSender.send("hello邮件", "邮件0000000", new File("C:\\ztemp\\WJYX_20190901.csv")
 //                , new File("C:\\ztemp\\WJYX_20190903.csv"));
-        //test();
+//        test();
         EmailSearchCondition emailSearchCondition = EmailSearchCondition.builder()
-                .basePath("D:\\temp\\msg")
+                .basePath("C:\\ztemp\\msg")
                 .returnBaseInfo(true)
-                .saveAttaches(true)
+                .saveAttaches(false)
+                //.filterSeen(true)
                 .intervalDays(-1)
                 .build();
-        List<EmailMsgBean> msgBeans = emailScanner.scan(emailSearchCondition);
+        List<EmailMsgBean> msgBeans = emailScanner.scan(emailSearchCondition, (ds)->{return true;} , (in)->{});
         log.info(JSON.toJSONString(msgBeans));
     }
 

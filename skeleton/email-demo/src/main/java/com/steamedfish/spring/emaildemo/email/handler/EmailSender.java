@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -23,10 +24,11 @@ import java.util.Set;
 /**
  * 〈邮件发送〉
  *
- * @author steamedfish
+ * @author sunzhengyu
  * @create 2019/12/27
  * @since 1.0.0
  */
+@Lazy
 @Component
 @Slf4j
 public class EmailSender {
