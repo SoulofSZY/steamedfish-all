@@ -35,7 +35,7 @@ public class SampleTest {
 
 
 
-    @Test
+   // @Test
     public void test02() {
         Pattern pattern = Pattern.compile("^RE_WJYX_\\d{8}\\.csv$");
         int matchCount = 0;
@@ -51,7 +51,7 @@ public class SampleTest {
 
 
 
-    @Test
+   // @Test
     public  void test() {
         int optind;
 

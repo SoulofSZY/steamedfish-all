@@ -4,10 +4,10 @@ package com.steamedfish.spring.emaildemo;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class EmailDemoApplicationTests {
 
-    @Test
+  //  @Test
     void contextLoads() {
     }
 

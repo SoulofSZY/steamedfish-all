@@ -1,7 +1,7 @@
 package com.steamedfish.spring.emaildemo.email.handler;
 
 import cn.hutool.core.lang.Assert;
-import com.sun.istack.internal.NotNull;
+//import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.context.annotation.Lazy;
@@ -39,7 +39,7 @@ public class EmailSender {
     private MailProperties mailProperties;
 
 
-    public void send(@NotNull String title, @NotNull String content, File... attaches) {
+    public void send( String title,  String content, File... attaches) {
         Assert.notBlank(title);
         Assert.notBlank(content);
         Assert.notBlank(mailProperties.getProperties().get("toEmail"));
