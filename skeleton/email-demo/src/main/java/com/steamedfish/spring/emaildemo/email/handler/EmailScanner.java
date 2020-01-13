@@ -70,8 +70,7 @@ public class EmailScanner extends EmailScannerTemplate {
                     }
                     if (emailSearchCondition.isSaveAttaches() || emailSearchCondition.isDealAttach()) {
                         for (DataSource ds : parser.getAttachmentList()) {
-                            try (BufferedInputStream ins =  new BufferedInputStream(ds.getInputStream())) {
-
+                            try (InputStream ins = ds.getInputStream()) {
                                 if (emailSearchCondition.isSaveAttaches()) {
                                     String fileName = emailSearchCondition.getBasePath() + File.separator + ds.getName();
                                     if (emailSearchCondition.isReturnBaseInfo()) {
@@ -87,8 +86,10 @@ public class EmailScanner extends EmailScannerTemplate {
 
                                 if (emailSearchCondition.isDealAttach()) {
                                     // 解析附件
-                                    ds.getInputStream().reset();
-                                    parseAttachConsumer.accept(ds.getInputStream());
+                                    if (emailSearchCondition.isSaveAttaches()) {
+                                        ins.reset();
+                                    }
+                                    parseAttachConsumer.accept(ins);
                                 }
                             } catch (Exception e) {
                                 log.error("解析邮件附件失败：params[subject:{}; from:{}]", parser.getSubject(), parser.getFrom(),e);
